@@ -309,10 +309,6 @@ drawCanvas();
 
 // ---- Tests ---- //
 
-function radToDeg(angle) {
-    return (angle / (2*Math.PI)) * 360;
-}
-
 function test_cartesianToPolarAngle() {
     let vals = [-1, 0, 1];
     for (let i = 0; i < vals.length; i++) {
