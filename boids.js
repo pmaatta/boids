@@ -260,9 +260,9 @@ resetButton.onclick = function() {
 disruptButton.onclick = function() {
     boids.forEach(boid => {
         let randomAngle = 5 * Math.random();
-        let randomSpeed = 0.5 * Math.random();
         boid.angle = (boid.angle + randomAngle) % (2*Math.PI);
-        boid.speed = boid.speed + randomSpeed;
+        let newSpeed = boid.speed + Math.random() - 0.5;
+        boid.speed = newSpeed > 0 ? newSpeed : boid.speed;
     });
 }
 colorCheckbox.onclick = function() {
