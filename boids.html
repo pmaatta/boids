@@ -1,52 +1,93 @@
 <!DOCTYPE html>
 <html lang=en-us>
+
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Boids</title>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="boids.css">
     </head>
     
     <body>
 
-        <div class="canvas_div">
-            <canvas id="mycanvas" width=1200 height=800>
-                Fallback text
-            </canvas>
+        <div class="container">
+
+            <div class="header">
+                <h1>Flocking simulator</h1>
+            </div>
+
+            <div class="grid_wrapper">
+
+                
+                <div class="canvas_div">
+                    <canvas id="mycanvas" width=1200 height=800>
+                        Failed to load canvas
+                    </canvas>
+                </div>
+
+                <div></div>
+                <div></div>
+                
+                <div class="controls">
+                    
+                    <div class="controls_inner_1">
+                        <p>
+                            <button type="button" id="reset">Reset</button>
+                            <button type="button" id="disrupt">Disrupt</button>
+                        </p>
+                        <p>
+                            <div>
+                                <input type="number" id="numBoids" name="numBoids" min="1" max="1000" step="1" value="1000">
+                                <label for="numBoids">Number of boids</label>
+                            </div>
+                            <div>
+                                <input type="number" id="boidsize" name="boidsize" min="1" max="7" step="1" value="3">
+                                <label for="boidsize">Boid size</label>
+                            </div>
+                        </p>
+                        <div>
+                            <input type="checkbox" name="color" id="color" checked>
+                            <label for="color">Color</label>
+                        </div>
+                    </div>
+                    
+                    <div class="controls_inner_2">
+                        <div>
+                            <input type="range" min="1.0" max="10.0" value="1.8" step="0.4" name="speed" id="speed">
+                            <label for="speed">Speed</label>
+                        </div>
+                        <div>
+                            <input type="range" min="10" max="100" value="20" step="5" name="flockingradius" id="flockingradius">
+                            <label for="flockingradius">Flocking radius</label>
+                        </div>
+                        <div>
+                            <input type="range" min="0.0" max="0.2" value="0.05" step="0.01" name="flockingstrength" id="flockingstrength">
+                            <label for="flockingstrength">Flocking strength</label>
+                        </div>
+                        <div>
+                            <input type="range" min="0" max="1.0" value="0.0" step="0.1" name="trails" id="trails">
+                            <label for="trails">Trails</label>
+                        </div>
+                    </div>
+
+                    <div class="controls_inner_3">
+                        <p>
+                            Flocking simulator inspired by <a href="https://www.red3d.com/cwr/boids/">the work of Craig Reynolds.</a>
+                        </p>
+                        <p>
+                            See the code <a href="https://github.com/pmaatta/boids">here</a>.
+                        </p>
+                    </div>
+                    
+                </div>
+
+            </div>
+
         </div>
-        
-        <div class="controls">
-            <p>
-                <button type="button" id="reset">Reset</button>
 
-                <button type="button" id="disrupt">Disrupt</button>
-
-                <label for="numBoids">Number of boids</label>
-                <input type="number" id="numBoids" name="numBoids" min="1" max="1000" step="1" value="1000">
-                
-                <label for="boidsize">Boid size</label>
-                <input type="number" id="boidsize" name="boidsize" min="1" max="7" step="1" value="3">
-                
-                <label for="speed">Speed</label>
-                <input type="range" min="1.0" max="10.0" value="1.8" step="0.4" name="speed" id="speed">
-
-                <label for="flockingradius">Flocking radius</label>
-                <input type="range" min="10" max="100" value="20" step="5" name="flockingradius" id="flockingradius">
-                
-                <label for="flockingstrength">Flocking strength</label>
-                <input type="range" min="0.0" max="0.2" value="0.05" step="0.01" name="flockingstrength" id="flockingstrength">
-            </p>
-            <p>
-                <label for="trails">Trails</label>
-                <input type="range" min="0" max="1.0" value="0.0" step="0.1" name="trails" id="trails">
-
-                <label for="color">Color</label>
-                <input type="checkbox" name="color" id="color" checked>
-            </p>
-        </div>
 
         <script src="boids.js" async defer></script>
 
     </body>
 </html>
+

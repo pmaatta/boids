@@ -1,4 +1,3 @@
-
 class Boid {
     
     constructor(x, y, speed, angle, size) {
@@ -199,18 +198,31 @@ function drawCircle(ctx, x, y, radius, fill=true, color="rgb(0, 0, 0)") {
     }
 }
 
-function clearCanvas(ctx, alpha=1.0) {
+function clearCanvas(ctx, alpha) {
     if (alpha === 1.0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    else {
-        ctx.fillStyle = "rgb(255, 255, 255, " + alpha + ")";
+    } else {
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 }
 
+function computeActualWidth() {
+    let actualWidth;
+    if (window.screen.width * window.innerWidth > 0) {
+        actualWidth = Math.min(window.screen.width, window.innerWidth);
+    } else {
+        actualWidth = Math.max(window.screen.width, window.innerWidth);
+    }
+    return actualWidth;
+}
+
+
 
 /////////////////////  Main  ///////////////////////
+
+
+// --- HTML Elements --- //
 
 const canvas = document.getElementById("mycanvas")
 const ctx = canvas.getContext("2d")
@@ -228,8 +240,17 @@ const strengthSlider = document.getElementById("flockingstrength");
 
 // ---- Parameters & initialization ---- //
 
-let numBoids = numBoidsElem.value;
+const maxWidth = 1000;
+const minHeight = 400;
+let actualWidth = computeActualWidth();
+canvas.width = Math.min(actualWidth, maxWidth);
+canvas.height = Math.max(Math.floor(0.6 * canvas.width), minHeight);
 
+if (actualWidth < 1000) {
+    numBoidsElem.value = 500;
+    boidsizeElem.value = 2;
+}
+let numBoids = numBoidsElem.value;
 let sizeMultiplier = boidsizeElem.value;
 let minSize = 10 * (sizeMultiplier / 2);
 let sizeVariance = 5 * (sizeMultiplier / 2);
@@ -269,7 +290,7 @@ colorCheckbox.onclick = function() {
     colorBoidsBlack = !colorCheckbox.checked;
 }
 trailsSlider.oninput = function() {
-    alpha = (1 - this.value) ** 4;
+    alpha = (1 - trailsSlider.value) ** 4;
 }
 speedSlider.oninput = function() {
     speedMultiplier = speedSlider.value;
@@ -293,77 +314,3 @@ function drawCanvas() {
 }
 
 drawCanvas();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ---- Tests ---- //
-
-function test_cartesianToPolarAngle() {
-    let vals = [-1, 0, 1];
-    for (let i = 0; i < vals.length; i++) {
-        for (let j = 0; j < vals.length; j++) {
-            let x = vals[i];
-            let y = vals[j];
-            let angle = cartesianToPolarAngle(x, y);
-            console.log([x, y, radToDeg(angle)]);
-        }
-    }
-}
-
-function test_angleAverage(randomAngles=true) {
-
-    let trials = 30;
-    let right = 0;
-    let left = 0;
-
-    for (let i = 0; i < trials; i++) {
-        let numAngles = 100;
-        let angles = [];
-
-        for (let i = 0; i < numAngles; i++) {
-            let angle = Math.random() * 2 * Math.PI;
-            if (!randomAngles) {
-                while (angle > Math.PI/2 && angle < 3*Math.PI/2) {
-                    angle = Math.random() * 2 * Math.PI;
-                }
-            }
-            angles.push(angle);
-        }
-
-        let avgX = 0;
-        let avgY = 0;
-        
-        angles.forEach(angle => {
-            let v = polarAngleToCartesian(angle);
-            let x = v[0];
-            let y = v[1];
-            avgX += x;
-            avgY += y;
-        });
-
-        let avgAngle = radToDeg(cartesianToPolarAngle(avgX, avgY));
-        let toTheRight = (avgAngle < 90 || avgAngle > 270);
-        if (toTheRight) {
-            right += 1;
-        } else {
-            left += 1;
-        }
-        console.log([avgAngle, toTheRight]);
-    }
-    console.log(["right:", right])
-    console.log(["left:", left])
-}
-
-// test_cartesianToPolarAngle();
-// test_angleAverage();
